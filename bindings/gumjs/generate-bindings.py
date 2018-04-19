@@ -33,7 +33,7 @@ def generate_and_write_bindings(source_dir, output_dir):
         for arch, flavor in flavor_combos:
             api_header_path = os.path.join(source_dir, "arch-" + arch, "gum{0}{1}.h".format(flavor, name))
             with codecs.open(api_header_path, "r", 'utf-8') as f:
-                api_header = f.read()
+                api_header = " ".join(f.read().split())
 
             bindings = generate_bindings(name, arch, flavor, api_header, options)
 
@@ -2686,7 +2686,7 @@ def parse_api(name, flavor, api_header, options):
         if method_name in ignored_methods:
             continue
 
-        raw_args = [raw_arg.strip() for raw_arg in raw_arglist.replace("\n", " ").split(", ")]
+        raw_args = [raw_arg.strip() for raw_arg in raw_arglist.split(", ")]
         if raw_args[-1] == "...":
             continue
 
